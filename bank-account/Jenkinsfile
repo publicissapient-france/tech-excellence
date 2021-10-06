@@ -1,0 +1,29 @@
+// In Jenkins, create Pipeline job using a Jenkinsfile from SCM:
+// Repository path: file:///c:/Users/tech-excellence/projects/tech-excellence
+// Branch: */bank-account-solution
+// Scriptpath: bank-account/Jenkinsfile
+pipeline {
+    agent any
+    tools {
+        // Matches maven defined in global Jenkins configuration
+        maven 'Maven 3.8.3'
+    }
+    stages {
+        stage('Build and Test') {
+            steps {
+                bat '''
+                  cd bank-account
+                  mvn clean install
+                 '''
+            }
+            post {
+                success {
+                    junit 'bank-account/target/surefire-reports/**/*.xml'
+                }
+                always {
+                    cucumber '**/cucumber.json'
+                }
+            }
+        }
+    }
+}
