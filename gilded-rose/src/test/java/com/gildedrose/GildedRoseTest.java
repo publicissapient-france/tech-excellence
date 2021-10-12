@@ -106,5 +106,16 @@ class GildedRoseTest {
         assertThat(app.items[0].quality).isEqualTo(0);
     }
 
+    @Test
+    void should_decrease_quality_twice_as_fast_for_conjured() {
+        Item[] items = new Item[]{new Item("Conjured", 9, 2)};
+        GildedRose app = new GildedRose(items);
+        app.updateQuality();
+        assertThat(app.items[0].sellIn).isEqualTo(8);
+        assertThat(app.items[0].quality).isEqualTo(0);
+    }
+
+
+
 
 }
